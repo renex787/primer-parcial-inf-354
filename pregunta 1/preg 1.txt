@@ -1,0 +1,45 @@
+import pandas as pd
+
+df = pd.read_csv("notas.csv")
+
+media = df["nota"].mean()
+mediana = df["nota"].median()
+moda = df["nota"].mode()
+print("""
+    Media: %d
+    Mediana: %d
+    Moda: %d
+""" % (media,mediana,moda))
+
+Medidas de posición: cuartiles y percentiles
+
+El concepto es igual al de mediana, salvo que aquí la división ya no es en el 50%. El 25% de las observaciones es menor que el primer cuartil. Los cuartiles abarcan el 25%, 50% y 75% de las observaciones. Los percentiles son una generalización con cualquier porcentaje.
+
+Ejemplo: ¿Cuál es la nota que tiene como mínimo el 10% más nota de la clase?
+
+Este enunciado nos pide calcular el percentil 90.
+
+Usamos quantile y el porcentaje.
+p90 = df["nota"].quantile(0.9)
+
+El resultado es que el 10% con más nota de la clase ha sacado un 8,8 como mínimo. Mencionar que existen distintos tipos de interpolación para este cálculo. En la referencia podemos consultar cual nos conviene más.
+Medidas de dispersión: desviación típica, rango, IQR, coeficiente de variación
+
+La desviación típica mide la dispersión de los datos respecto a la media. Se trata de la raíz cuadrada de la varianza, que en sí misma no es una medida de dispersión. Para calcular la desviación típica usamos std y var para la varianza. (ddof=0 es necesario si quieres seguir la definición de desviación típica y varianza de algunas bibliografías, la razón es que hay un parámetro de ajuste que Pandas pone a 1, pero otras librerías ponen a 0). En Excel es la diferencia que hay entre DESVEST.M (ddof=1) y DESVEST.P (ddof=0).
+std = df["nota"].std(ddof=0)
+var = df["nota"].var(ddof=0)
+assert(np.sqrt(var) == std)
+
+El rango es la diferencia entre el máximo y el mínimo y el rango intercuartílico o IQR es la diferencia entre el tercer y el primer cuartil.
+rango = df["nota"].max() - df["nota"].min()
+iqr = df["nota"].quantile(0.75) - df["nota"].quantile(0.25)
+
+El coeficiente de variación es una medida que sirve para comparar entre dos muestras, cuál varía más y cuál es más estable. Es una simple división, de la desviación típica sobre la media, sin embargo, SciPy nos ofrece una función ya preparada.
+import pandas as pd
+import scipy.stats as ss
+
+df = pd.read_csv("notas.csv")
+
+cv = df["nota"].std(ddof=0) / df["nota"].mean()
+cv2 = ss.variation(df["nota"])
+assert(cv == cv2)

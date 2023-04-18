@@ -1,0 +1,12 @@
+cielo,ambiente,temperatura,viento,label
+lluvioso,calido,alto,bajo,no
+lluvioso,calido,alto,alto,no
+nublado,calido,alto,bajo,si
+soleado,temp media,alto,bajo,si
+soleado,frio,normal,bajo,si
+soleado,frio,normal,alto,no
+nublado,frio,normal,alto,si
+lluvioso,temp media,alto,bajo,no
+lluvioso,frio,normal,bajo,si
+nublado,temp media,alto,alto,si
+soleado,temp media,alto,alto,no
